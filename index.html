@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        ul { list-style-type: none; padding: 0; }
+        li { background: #f4f4f4; padding: 10px; margin: 5px 0; display: flex; justify-content: space-between; }
+        button { cursor: pointer; }
+    </style>
+</head>
+<body>
+<h2>To-Do List</h2>
+<label for="taskInput"></label><input type="text" id="taskInput" placeholder="Enter a task">
+<button id="addTaskBtn">Add Task</button>
+<button id="toggleListBtn">Show/Hide Tasks</button>
+<ul id="taskList"></ul>
+
+<script>
+    $(document).ready(function() {
+        let tasks = [];
+
+        function updateTaskList() {
+            $("#taskList").empty();
+            tasks.forEach((task, index) => {
+                $("#taskList").append(
+                    `<li>${task} <button class="deleteBtn" data-index="${index}">Delete</button></li>`
+                );
+            });
+        }
+
+        $("#addTaskBtn").click(function() {
+            let task = $("#taskInput").val().trim();
+            if (task) {
+                tasks.push(task);
+                $("#taskInput").val("");
+                updateTaskList();
+            }
+        });
+
+        $("#taskList").on("click", ".deleteBtn", function() {
+            let index = $(this).data("index");
+            tasks.splice(index, 1);
+            updateTaskList();
+        });
+
+        $("#toggleListBtn").click(function() {
+            $("#taskList").slideToggle();
+        });
+    });
+</script>
+</body>
+</html>
